@@ -1,0 +1,136 @@
+Makefile Study based on:
+https://www.youtube.com/watch?v=Tt3BLZCVjAE&list=PLLCFxfe9wkl-tCZvSCbzQGcNv9nSN5ZAP
+
+/******************* Basic definitions ***************************/
+The makefile defines a recipe which assists the program build.
+It is basically composed by the following structure:
+
+target : dependency
+<TAB>recipe
+
+target is what is intended to generate
+dependencies are what is necessary to generate the target.
+recipe is how the target will be generated using the dependencies.
+
+/************************* Example: *****************************/
+program: program.o
+    gcc program.o -o program
+	
+Where:
+Target = program
+dependency = program.o
+recipe = gcc program.o -o program
+	|
+	--> gcc is the compiler 
+	|
+	--> program.o is the dependency to generate the target
+	|
+	--> program is the result of the compilation
+
+/************************  Main targets: *************************/
+all:
+ |
+ --> It is used to define the dependencies and the main output of the compilation
+ |
+ --> This is executed when the 'make' or 'make all' commands are invoked.
+ |
+ --> For example:
+		all: test
+
+		test: test.c
+			gcc -o test test.c
+ 
+clean:
+ |
+ --> It is used to delete some files defined in the clean target:
+ |
+ --> This is executed when the 'make clean' command is invoked.
+ |
+ --> For example:
+	-rm *.o			//remove all files with the extension .0
+    -rm -f program  //remove the file program
+
+
+/************************  Flags: *************************/
+
+ -c <file> --> Compile this <file>
+ -o <file> --> Generate output to <file>
+ -J <directory> --> Allocate the output of compilation into <directory>
+ -I <directory> --> Look for modules inside <directory>
+ 
+/**************  Variables: *********************/
+
+Variables help the makefile to be portable and easy to change. 
+In the following example, it is easier to change the source file location
+and switch the compilation from c to c++, for instance.
+
+<VARIABLE_NAME> = <resource_path>
+
+For example:
+SRC = ../Source
+CC = gcc
+
+sum.o: $(SRC)/Sum.c $(SRC)/Sum.h
+	$(CC) -o sum.o -c $(SRC)Sum.c 
+	
+/**************  Masks: *********************/	
+
+ The masks represent some makefile parameter as fallow:
+
+"$<" --> Represents the first dependency
+"$@" --> Represents the target.
+"*.o" --> Represents any file .o in the command.
+"%.o" --> Represents any file .o in the target or dependency.
+
+For example:
+
+%.o:	%.c %.h
+	$(CC) -c $< -o $@
+	
+If the command "mingw32-make test.o" is invoked then is equal to:
+test.o: 	test.c test.h
+		$gcc -c test.c -o test.o
+		
+But, if the command "mingw32-make ./Output/test.o" is invoked then is equal to:
+./Output/test.o: 	./Output/test.c ./Output/test.h
+		$gcc -c ./Output/test.c -o ./Output/test.o
+
+In this case all depencies must be in the "Output" directory, because the "%" will
+replace "./Output/test". 		
+
+/**************  Wildcard: *********************/	
+
+Wildcard makes possible the use of '*' mask and change the file extension 
+in the variables, for example:
+
+SRC = $(wildcard ./src/*.<extension>)  --> This variable refers to all files of <extension> 
+										   inside the src directory.
+OBJ = $(SRC:.<extension>=<new_extension>) --> This variable refers to all files of <new_extension> 
+										      inside the src directory. 
+
+/**************  addsulfix and addprefix: *********************/
+
+addprefix adds any text at the variable start.
+for example:
+DEP = main.o
+TEST_DIR = .test_dir/test_
+TEST = $(addprefix $(TEST_DIR)/, $(DEP))
+The result will be 'TEST = .test_dir/test_main.o'
+
+addsulfix adds any text at the variable end.
+DEP = main
+TEST = $(addsulfix .o, $(DEP))
+The result will be 'TEST = main.o'
+
+/**************  vpath: *********************/
+
+vpath specify directories where the compiler should look for files.
+for example:
+
+SRC = ./Source
+INC = ./Include
+vpath %.c $(SRC)
+vpath %.h $(INC)
+
+In the case above, the compiler will look for source files inside the Source directory and header files 
+inside Include directory.

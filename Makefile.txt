@@ -1,2 +1,0 @@
-Makefile Study based on:
-https://www.youtube.com/watch?v=Tt3BLZCVjAE&list=PLLCFxfe9wkl-tCZvSCbzQGcNv9nSN5ZAP
