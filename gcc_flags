@@ -1,0 +1,101 @@
+
+GCC flags:
+3.2 Options Controlling the Kind of Output
+	|
+	--> -x language: This flag specifies the language for the compiler. By default, 
+	|				 the compiler assumes the language based on the file suffix 
+	|				 (.c, .s, .f90, etc.). However, you can explicitly indicate 
+	|				 the language using flags like '-x assembler-with-cpp'. 
+	|				 This flag tells the compiler that the code will be written 
+	|				 in assembly language, but before compilation, the C preprocessor 
+	|				 will scan the assembly code for any preprocessor directives such 
+	|				 as #define or #include."
+	|
+	--> -specs=file: This flag indicates the configuration file used by gcc to specify 
+					 rules for building and linking code. For instance, using "-specs=nano.spec",
+					 which is a built-in spec file for gcc, tells the compiler to use the nano
+					 C library instead of the standard library. The nano C library is a 
+					 reduced library compared to the standard library used for embedded software
+					 where memory and processing recources are limited.
+	
+3.8 Options to Request or Suppress Warnings	
+	|
+	--> -Wall: This flag enables a list of warnings considered as questionable.
+
+3.10 Options for Debugging Your Program	
+	|
+	-->	-g: Produce debugging information in the operating system´s native format.
+	|
+	--> -gdwarf-version: Produce debugging information in DWARF format
+
+3.11 Options That Control Optimization	
+	|
+	--> -Og: This flag enables the optimization level recomended by gcc manual for 
+	|		 debugging. It offers a reasonable level of optimization while 
+	|		 maintaining fast compilation and a good debugging experience.
+	|	
+	-->	-fdata-sections and 
+		-ffunction-sections: These flags allow the compiler to place functions and
+							 global/static initialized data into separete sections.
+							 They can help discard unused section, which optimize
+							 the size of final binary. So, their goal is to optimize 
+							 the final binary by keeping unused section out of it.
+							 The unused sections can include debugging information, 
+							 unused variables, unused funtions and so on.
+			
+	
+3.13 Options Controlling the Preprocessor	
+	|
+	-->	-D: Define a macro (-DDEBUG = #define DEBUG)
+	|
+	--> -MMD: This flag generate a dependency file for each output file generated.
+	|		  The dependency file (.d) contains a list of all sources, which the sources
+	|		  file depends on, such as header files. 
+	|
+	-->	-MP: This flag tells the GCC compiler to generate a phony target for each 
+	|		  dependency in the Makefile other than the main file. For example,
+	|		  if the project has test.h as dependency. Then the phony target 
+	|		  'test.h:' will be added to the dependency file 'test.d'.
+	|
+	--> -MF file: This flag specifies the name of the dependency file to generate.
+				  This option override the previous two options -MMD and -MP.
+	
+
+3.14 Passing Options to the Assembler	
+	|
+	-->	-Wa,option: To pass an option to the assembler. The option is related to the
+					assembler used in the compilation process. For example, if the 
+					assembler used is GNU Assembler, then the flag options need to 
+					be the GNU Assembler option.
+	
+3.15 Options for Linking	
+	|
+	--> -T script: This flag indicate a linker script (.ld) for compiler. This flag
+	|			   may be required for bare-boards without an operating system.
+	|
+	-->	-Wl,option: To pass an option to the linker. The option is related to the
+					linker used in the compilation process. For example, if the 
+					linker used is GNU linker, then the flag options should be	
+					a valid GNU linker option.
+
+3.16 Options for Directory Search	
+	|
+	-->	-I: Add the directory dir to the list of directories to be searched for 
+			header files during preprocessing.
+
+
+ARM flags:
+-mcpu: This specifies the name of the target ARM processor.
+-mfpu
+-mfloat-abi
+-mthumb
+
+GNU Linker options:
+--cref 
+--gc-sections
+-Map
+
+GNU assembler options:
+-a
+-ad
+-alms (combined listing flags of the GNU assembler options)
