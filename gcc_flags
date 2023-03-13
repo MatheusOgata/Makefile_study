@@ -84,11 +84,43 @@ GCC flags:
 			header files during preprocessing.
 
 
-ARM flags:
--mcpu: This specifies the name of the target ARM processor.
--mfpu
--mfloat-abi
--mthumb
+ARM options:
+-mcpu: This option defines the name of the target ARM processor. It is derived from the 
+	   target Arm processor architecture (-mtune option) and indirectly from the 
+	   Arm architecture (-march option). For example, when setting the -mcpu=Cortex-M4
+	   the -mtune and -march are automatically set. This is set to -mtune=Cortex-M4
+	   and -march=ARMv7E-M. The -march is set to ARMv7E-M due to all Cortex-M4 processors
+	   are based on the ARMv7E-M arm architecture. The list of all available processors
+	   can be found in the -mtune option description.
+	   The Arm architecture describes features such as a base set of instructions, 
+	   hardware virtualization, interrupt handling capabilities and so on. The processor
+	   architecture describes additional features namely floating-point unit (FPU),
+	   digital signal processing (DSP) instructions, and a memory protection unit (MPU). 	   
+	   The difference between the Arm architecture and the processor architecture is that
+	   the Arm architecture is the base architecture that the processors are derived from.
+	   For instance, Cortex-M4 and Cortex-M7 are both derived from ARMv7E-M arm architecture.
+	   Both owns the same base set of instructions. However, each one can have additional 
+	   instruction to handle processor specific features, in case of Cortex-M4 includes 
+	   DSP instructions and in case of Cortex-M7 includes SIMD (Single Instruction, 
+	   Multiple Data) instructions. 
+
+-mfpu: This specifies what floating-point hardware (or hardware emulation) is available
+	   on the target. The available options used in that flag can be found in the arm
+	   architecture reference manual of the processor. For example, Cortex-M4 is based on
+	   the ARMv7E-M arm architecture. Then the information about the FPU option used by compiler
+	   can be found in the Armv7-M Architecture Reference Manual. The FPU option for that case 
+	   is FPv4-SP-D16, which refers to the single-precision floating-point unit with a 
+	   16-doubleword register file. The Armv7-M Architecture supports both FPv4-SP-D16 and 
+	   FPv5-D16 floating-point options. The later can be used for single and double precision 
+	   calculation.
+	   
+-mfloat-abi: This defines which floating-point will be used. There are three possible 
+			 choices: soft, softfp or hard. 
+			 soft perform floating-point calculation in software by calling a libraries.
+			 softfp perform floating-point calculation using a mix of hardware floating-point
+			 instruction and software libraries.
+			 hard uses only hardware floating-point instructions.
+-mthumb:
 
 GNU Linker options:
 --cref 
