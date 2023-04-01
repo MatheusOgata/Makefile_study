@@ -120,12 +120,43 @@ ARM options:
 			 softfp perform floating-point calculation using a mix of hardware floating-point
 			 instruction and software libraries.
 			 hard uses only hardware floating-point instructions.
--mthumb:
+			 
+-mthumb or -marm: Defines the instruction set used, which can be thumb (16-bit instructions 
+				   size) and arm (32-bit instructions size). ARM mode provides maximum 
+				   performance and efficiency by using 32-bit instructions, while Thumb-2
+				   mode provides improved code density and reduced memory usage.
+
 
 GNU Linker options:
---cref 
---gc-sections
--Map
+-Map=mapfile: Prints a link map to the file mapfile. The link map provides information 
+			  like:
+			  - Where object files are mapped into memory.
+			  - How common symbols are allocated.
+			  - The values assigned to symbols.
+
+--cref: Output a cross reference table. If a linker map file is being generated, the cross
+		reference table is printed to the map file. Otherwise, it is printed on the standard
+		output.
+		The cross-reference table lists all symbols defined in the code, such as functions, 
+		variables, and macros, along with their location in the object file.
+		The table look like this:
+		
+		Symbol          Type        Value       Referenced by
+		-------         ----        -----       ------------
+		main            function    0x00000000  app.o
+		foo             function    0x00000010  app.o
+		var1            variable    0x00000030  app.o
+		var2            variable    0x00000040  app.o
+ 
+--gc-sections: Enable garbage collection of unused input sections. It instructs 
+			   the linker to remove unused sections from the final binary output.
+			   When the --gc-sections option is used, the linker analyzes the object 
+			   files and libraries that are being linked together to identify which 
+			   sections are actually used by the program. Any sections that are not 
+			   referenced by the program are marked as unused and removed from the 
+			   output file.
+
+
 
 GNU assembler options:
 -a
