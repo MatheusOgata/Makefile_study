@@ -159,6 +159,24 @@ GNU Linker options:
 
 
 GNU assembler options:
--a
--ad
--alms (combined listing flags of the GNU assembler options)
+-a: Generates a listing file that contains a detailed summary of the assembly code, 
+	including the source file, the line numbers, the machine code, and any associated 
+	symbols. This list is configurable by passing the flags of the option -a.
+
+-ad: Omit debugging directives. The debugging directives are a kind of metadata (data 
+	 that describes or provides information about other data) used by debugging tools 
+	 such as 'gdb' to help understand and debug the program's execution. The directives
+	 are included in the compiled code as metadata. Although, it is not executed by
+	 the processor during the running time, metadata are present in the code to provide
+	 information to debugging tools. Then, it increase the memory usage. Using -ad
+	 flag for versions where debugging is no longer necessary, can help decreasing the 
+	 memory usage. It is worth to say that this flag only affects output produced by 
+	 the assembler. Then CFI(Call Frame Information) directives are not affect by this 
+	 flag, for example.
+
+-alms=file: This is combination of the -a flags (-al, -am and -as). Each flag adds in or 
+			removes	information from the list. The file is the file containing the list.
+			The flags above indicates the following:
+			-al: include assembly
+			-am: include macro
+			-as: include symbols
